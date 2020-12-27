@@ -1,0 +1,28 @@
+# This file is provisioned by ansible.
+*filter
+:INPUT ACCEPT [0:0]
+:FORWARD ACCEPT [0:0]
+:OUTPUT ACCEPT [0:0]
+COMMIT
+*mangle
+:PREROUTING ACCEPT [0:0]
+:INPUT ACCEPT [0:0]
+:FORWARD ACCEPT [0:0]
+:OUTPUT ACCEPT [0:0]
+:POSTROUTING ACCEPT [0:0]
+-A OUTPUT -j DSCP --set-dscp 0x00
+-A OUTPUT -p udp -m udp --dport 5060 -j DSCP --set-dscp 0x0a
+-A OUTPUT -p tcp -m tcp --dport 5060 -j DSCP --set-dscp 0x0a
+-A OUTPUT -p udp -m udp --dport 6970:6999 -j DSCP --set-dscp 0x2e
+-A OUTPUT -p tcp -m tcp --dport 6970:6999 -j DSCP --set-dscp 0x2e
+COMMIT
+*raw
+:PREROUTING ACCEPT [0:0]
+:OUTPUT ACCEPT [0:0]
+COMMIT
+*nat
+:PREROUTING ACCEPT [0:0]
+:INPUT ACCEPT [0:0]
+:OUTPUT ACCEPT [0:0]
+:POSTROUTING ACCEPT [0:0]
+COMMIT
